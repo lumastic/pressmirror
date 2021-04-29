@@ -1,0 +1,12 @@
+.prosemirror {
+  [contenteditable="true"] {
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+.debug {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid lightblue;
+  box-sizing: border-box;
+}
