@@ -5,7 +5,7 @@ export function createListenProps<A>(
   container: HTMLElement,
   portalProvider: PortalProvider
 ) {
-  return function (cb: (newProps: A) => void) {
+  return function (cb: (newProps: A) => void): void {
     useEffect(() => {
       portalProvider.subscribe(container, cb);
       return () => {
