@@ -1,8 +1,9 @@
 import React from "react";
 import { NodeView, EditorView, Decoration } from "prosemirror-view";
 import { Node as PMNode } from "prosemirror-model";
+import { PortalProvider } from "../providers";
+import { EditorContext } from "../types";
 import { createListenProps } from "../context/createListenProps";
-import { PluginsProvider, PortalProvider } from "../providers";
 
 export type ReactComponentProps = { [key: string]: unknown };
 export interface Attrs {
@@ -42,7 +43,7 @@ export class ReactNodeView<
 
   private reactComponent?: React.ComponentType<any>;
   private portalProvider: PortalProvider;
-  private pluginsProvider: PluginsProvider;
+  private ctx: EditorContext;
 
   reactComponentProps: P;
 
@@ -50,16 +51,15 @@ export class ReactNodeView<
     node: PMNode,
     view: EditorView,
     getPos: (() => number) | boolean,
-    portalProvider: PortalProvider,
-    pluginsProvider: PluginsProvider,
+    ctx: EditorContext,
     reactComponentProps?: P,
     reactComponent?: React.ComponentType<any>
   ) {
     this.node = node;
     this.view = view;
     this.getPos = getPos;
-    this.pluginsProvider = pluginsProvider;
-    this.portalProvider = portalProvider;
+    this.ctx = ctx;
+    this.portalProvider = ctx.portalProvider;
     this.reactComponentProps = reactComponentProps || ({} as P);
     this.reactComponent = reactComponent;
   }
@@ -73,7 +73,7 @@ export class ReactNodeView<
    * constructor, which leads to some methods being undefined during the
    * first render.
    */
-  init(): NodeView {
+  init() {
     // Here, we'll provide a container to render React into.
     // Coincidentally, this is where ProseMirror will put its
     // generated contentDOM. React will throw out that content
@@ -172,7 +172,7 @@ export class ReactNodeView<
   update(node: PMNode, _decorations: Decoration[]): boolean {
     if (!this.dom) return false;
     // Sometimes it might happen that the current transaction transforms/splits a node
-    // into entirely different node (eg block nodes becoming paragraphs all of sudden)
+    // into entirely different node (eg block nodes like blockquotes becoming paragraphs all of sudden)
     // I guess you could do some magic there to avoid redrawing but for now I have little idea how to
     // utilize it so this returns false and the update is processed by PM default behavior.
     // Might be relevant
@@ -228,23 +228,14 @@ export class ReactNodeView<
 
   static fromComponent(
     component: React.ComponentType<any>,
-    portalProvider: PortalProvider,
-    pluginsProvider: PluginsProvider,
+    ctx: EditorContext,
     props?: ReactComponentProps
   ) {
     return (
       node: PMNode,
       view: EditorView,
       getPos: (() => number) | boolean
-    ): NodeView =>
-      new ReactNodeView(
-        node,
-        view,
-        getPos,
-        portalProvider,
-        pluginsProvider,
-        props,
-        component
-      ).init();
+    ): ReactNodeView =>
+      new ReactNodeView(node, view, getPos, ctx, props, component).init();
   }
 }

@@ -26,7 +26,7 @@ export class FocusExtention extends Extension<Record<string, unknown>> {
   }
 
   get plugins(): ExtensionPlugin[] {
-    return [{ name: "base", plugin: () => focusPluginFactory }];
+    return [{ name: "focus", plugin: () => focusPluginFactory }];
   }
 }
 

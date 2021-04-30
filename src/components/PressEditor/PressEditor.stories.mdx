@@ -10,3 +10,47 @@ The `PressEditor` component is Lumastic's implementations of the [ProseMirror](h
 <Story name="Basic">
   <PressEditor debug />
 </Story>
+
+The `PressEditor` can take a `defaultValue` prop.
+
+<Story name="defaultValue">
+  <PressEditor
+    debug
+    defaultValue={{
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: "Henlo"
+            }
+          ]
+        }
+      ]
+    }}
+  />
+</Story>
+
+The `PressEditor` can take a `defaultValue` prop.
+
+<Story name="Heading">
+  <PressEditor
+    debug
+    defaultValue={{
+      type: "doc",
+      content: [
+        {
+          type: "heading",
+          content: [
+            {
+              type: "text",
+              text: "Henlo"
+            }
+          ]
+        }
+      ]
+    }}
+  />
+</Story>

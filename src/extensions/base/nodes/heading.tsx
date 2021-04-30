@@ -1,4 +1,22 @@
-import { NodeSpec } from "prosemirror-model";
+import { Node, NodeSpec } from "prosemirror-model";
+import { EditorView, NodeView } from "prosemirror-view";
+import { EditorContext } from "../../../core/types";
+import { ReactNodeView } from "../../../core/views/ReactNodeView";
+import { Type } from "lumastic-ui";
+import React, { forwardRef, useState } from "react";
+
+// eslint-disable-next-line react/display-name
+const Heading = forwardRef(
+  (props: any = {}, ref): React.ReactElement => {
+    const { initialProps, useListenProps } = props;
+    useListenProps(handlePropsUpdate);
+    const [level, setLevel] = useState(initialProps.attrs.level);
+    function handlePropsUpdate(newProps: any) {
+      setLevel(newProps.attrs.level);
+    }
+    return <Type {...{ [`h${level}`]: true }} ref={ref} />;
+  }
+);
 
 const heading: NodeSpec = {
   attrs: { level: { default: 1 } },
@@ -17,5 +35,25 @@ const heading: NodeSpec = {
     return ["h" + node.attrs.level, 0];
   }
 };
+
+export class HeadingView extends ReactNodeView {
+  createContentDOM(): HTMLElement {
+    const contentDOM = document.createElement("div");
+    contentDOM.classList.add(`${this.node.type.name}__content-dom`);
+    return contentDOM;
+  }
+}
+
+export function headingNodeView(
+  ctx: EditorContext,
+  options?: Record<string, unknown>
+) {
+  return (
+    node: Node,
+    view: EditorView,
+    getPos: (() => number) | boolean
+  ): NodeView =>
+    new HeadingView(node, view, getPos, ctx, { options }, Heading).init();
+}
 
 export default heading;

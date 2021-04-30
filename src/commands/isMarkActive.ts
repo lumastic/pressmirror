@@ -1,13 +1,12 @@
 import { MarkType } from "prosemirror-model";
-import { schema } from "prosemirror-schema-basic";
 import { EditorState } from "prosemirror-state";
 
 export function isBold(state: EditorState): boolean {
-  return isMarkActive(state, schema.marks.strong);
+  return isMarkActive(state, state.schema.marks.strong);
 }
 
 export function isItalic(state: EditorState): boolean {
-  return isMarkActive(state, schema.marks.em);
+  return isMarkActive(state, state.schema.marks.italic);
 }
 
 export function isMarkActive(state: EditorState, mark: MarkType): boolean {

@@ -4,7 +4,7 @@ import { useEditorContext } from "../context/useEditorContext";
 /**
  * Component to render the mounted nodeViews as portals.
  */
-export function PortalRenderer() {
+export function PortalRenderer(): React.ReactElement {
   const { portalProvider } = useEditorContext();
   const [_ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [portals, setPortals] = useState<Map<HTMLElement, React.ReactPortal>>(

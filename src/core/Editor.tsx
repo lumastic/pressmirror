@@ -24,7 +24,7 @@ export function Editor(props: EditorProps): ReactElement {
       const view = createEditorView(editorViewDOM, pmEditorProps);
       viewProvider.init(view);
       if (props.onEditorReady) {
-        props.onEditorReady(ctx);
+        props.onEditorReady(ctx, state);
       }
     }
     return () => {
@@ -33,9 +33,11 @@ export function Editor(props: EditorProps): ReactElement {
   }, []);
 
   function createEditorState() {
+    const schema = extensionProvider.createSchema();
     return EditorState.create({
-      schema: extensionProvider.createSchema(),
-      plugins: extensionProvider.createPlugins()
+      schema,
+      plugins: extensionProvider.createPlugins(),
+      doc: props.initialDoc && schema.nodeFromJSON(props.initialDoc)
     });
   }
 
@@ -120,5 +122,13 @@ export function Editor(props: EditorProps): ReactElement {
     // }
   }
 
-  return <div ref={editorViewRef}>{props.children}</div>;
+  return (
+    <div
+      ref={editorViewRef}
+      style={{ outline: "none" }}
+      className={props.className}
+    >
+      {props.children}
+    </div>
+  );
 }

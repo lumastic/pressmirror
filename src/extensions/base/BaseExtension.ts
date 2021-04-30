@@ -6,15 +6,15 @@ import toggleMarkCommand from "../../commands/toggleMarkCommand";
 import { Extension, ExtensionPlugin, IExtensionSchema } from "../Extension";
 import { basePluginFactory } from "./basePluginFactory";
 import { italic, strong } from "./marks";
-import { doc, paragraph, text } from "./nodes";
+import { doc, paragraph, text, heading } from "./nodes";
 import { basePluginKey, BaseState, getPluginState } from "./state";
 
 const toggleBold = toggleMarkCommand("strong");
 const toggleItalic = toggleMarkCommand("italic");
 
 export const baseSchema: IExtensionSchema = {
-  nodes: { doc, paragraph, text },
-  marks: { em: italic, strong }
+  nodes: { doc, paragraph, text, heading },
+  marks: { italic, strong }
 };
 export class BaseExtension extends Extension<Record<string, unknown>> {
   get name(): string {

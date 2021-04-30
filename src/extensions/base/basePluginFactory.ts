@@ -1,6 +1,8 @@
 import { Plugin } from "prosemirror-state";
 import { getActiveMarks } from "../../commands/getActiveMarks";
 import { EditorContext } from "../../core/types";
+import { headingNodeView } from "./nodes/heading";
+import { paragraphNodeView } from "./nodes/paragraph";
 import { BaseState, basePluginKey } from "./state";
 
 export function basePluginFactory(
@@ -33,6 +35,12 @@ export function basePluginFactory(
         }
 
         return pluginState;
+      }
+    },
+    props: {
+      nodeViews: {
+        paragraph: paragraphNodeView(ctx, options),
+        heading: headingNodeView(ctx, options)
       }
     },
     key: basePluginKey

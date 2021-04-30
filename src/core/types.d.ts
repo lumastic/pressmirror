@@ -1,3 +1,4 @@
+import { Node } from "prosemirror-model";
 import { EditorState } from "prosemirror-state";
 import React from "react";
 import { EditorViewProvider, PluginsProvider } from "./providers";
@@ -20,6 +21,9 @@ export interface EditorProps {
   children: React.ReactNode;
   disabled?: boolean;
   appearance?: EditorAppearance;
-  onEditorReady?: (ctx: EditorContext) => void;
+  onEditorReady?: (ctx: EditorContext, defaultState: EditorState) => void;
   onDocumentEdit?: (newState: EditorState) => void;
+  initialDoc?: JSON;
+  className?: string;
+  placeholder?: string;
 }

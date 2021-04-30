@@ -8,8 +8,10 @@ describe("PressEditor tests", () => {
     const { container } = render(<PressEditor />);
     expect(container.getElementsByClassName("ProseMirror").length).toBeTruthy();
   });
-  test("Can mount", () => {
+  test("See placeholder", () => {
     const { container } = render(<PressEditor />);
-    expect(container.getElementsByClassName("ProseMirror").length).toBeTruthy();
+    expect(
+      container.querySelectorAll("[data-placeholder]").length
+    ).toBeTruthy();
   });
 });
