@@ -110,12 +110,7 @@ export class ReactNodeView<
       this.portalProvider
     );
     this.renderReactComponent(
-      this.render(
-        this.createProps(this.node),
-        this.handleRef,
-        useListenProps,
-        this.setNodeAttrs
-      )
+      this.render(this.createProps(this.node), this.handleRef, useListenProps)
     );
 
     return this;
@@ -163,30 +158,23 @@ export class ReactNodeView<
   render(
     initialProps: NodeViewProps<P, A>,
     forwardRef: ForwardRef,
-    useListenProps: (cb: (newProps: NodeViewProps<P, A>) => void) => void,
-    setNodeAttrs: any
+    useListenProps: (cb: (newProps: NodeViewProps<P, A>) => void) => void
   ): React.ReactElement<any> | null {
     return this.reactComponent ? (
       <this.reactComponent
         ref={forwardRef}
         initialProps={initialProps}
         useListenProps={useListenProps}
-        setAttrs={setNodeAttrs}
+        setAttrs={(attrs) => {
+          this.view.dispatch(
+            this.view.state.tr.setNodeMarkup(this.getPos(), null, {
+              ...this.node.attrs,
+              ...attrs
+            })
+          );
+        }}
       />
     ) : null;
-  }
-
-  setNodeAttrs(attrs: Record<string, unknown>): void {
-    let position = 0;
-    if (typeof this.getPos === "function") {
-      position = this.getPos();
-    }
-    console.log("here");
-    console.log(position);
-    this.view.state.tr.setNodeMarkup(position, null, {
-      ...this.node.attrs,
-      ...attrs
-    });
   }
 
   update(node: PMNode, _decorations: Decoration[]): boolean {

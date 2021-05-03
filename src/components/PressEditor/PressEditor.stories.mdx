@@ -57,3 +57,20 @@ The `PressEditor` can take a `defaultValue` prop.
     }}
   />
 </Story>
+
+<Story name="Random">
+  <PressEditor
+    debug
+    defaultValue={{
+      type: "doc",
+      content: [
+        {
+          type: "random"
+        },
+        {
+          type: "paragraph"
+        }
+      ]
+    }}
+  />
+</Story>

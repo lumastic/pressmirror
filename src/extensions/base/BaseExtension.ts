@@ -3,19 +3,21 @@ import { history, redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import { EditorState, PluginKey } from "prosemirror-state";
 import toggleHeadingCommand from "../../commands/toggleHeadingCommand";
+import { toggleLink } from "../../commands/toggleLink";
 import toggleMarkCommand from "../../commands/toggleMarkCommand";
 import { Extension, ExtensionPlugin, IExtensionSchema } from "../Extension";
 import { basePluginFactory } from "./basePluginFactory";
-import { italic, strong } from "./marks";
-import { doc, heading, paragraph, text } from "./nodes";
+import { italic, strong, link, underline } from "./marks";
+import { doc, heading, paragraph, text, random } from "./nodes";
 import { basePluginKey, BaseState, getPluginState } from "./state";
 
 const toggleBold = toggleMarkCommand("strong");
 const toggleItalic = toggleMarkCommand("italic");
+const toggleUnderline = toggleMarkCommand("underline");
 
 export const baseSchema: IExtensionSchema = {
-  nodes: { doc, paragraph, text, heading },
-  marks: { italic, strong }
+  nodes: { doc, paragraph, text, heading, random },
+  marks: { italic, strong, link, underline }
 };
 export class BaseExtension extends Extension<Record<string, unknown>> {
   get name(): string {
@@ -55,8 +57,10 @@ export class BaseExtension extends Extension<Record<string, unknown>> {
             "Mod-Shift-z": redo,
             "Mod-b": toggleBold,
             "Mod-i": toggleItalic,
+            "Mod-u": toggleUnderline,
             "Mod-Shift-1": toggleHeadingCommand(1),
-            "Mod-Shift-2": toggleHeadingCommand(2)
+            "Mod-Shift-2": toggleHeadingCommand(2),
+            "Mod-k": toggleLink
           })
       },
       { name: "base", plugin: () => basePluginFactory(this.ctx, this.props) }

@@ -5,5 +5,6 @@ export { default as horizontal_rule } from "./horizontal_rule";
 export { default as heading } from "./heading";
 export { default as code_block } from "./code_block";
 export { default as text } from "./text";
-export { default as image } from "./image";
+export { default as gallery } from "./gallery";
 export { default as hard_break } from "./hard_break";
+export { default as random } from "./random";

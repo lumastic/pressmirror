@@ -1,6 +1,6 @@
 import { NodeSpec } from "prosemirror-model";
 
-const image: NodeSpec = {
+const gallery: NodeSpec = {
   inline: true,
   attrs: {
     src: {},
@@ -27,4 +27,4 @@ const image: NodeSpec = {
   }
 };
 
-export default image;
+export default gallery;

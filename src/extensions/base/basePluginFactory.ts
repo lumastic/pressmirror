@@ -3,6 +3,7 @@ import { getActiveMarks } from "../../commands/getActiveMarks";
 import { EditorContext } from "../../core/types";
 import { headingNodeView } from "./nodes/heading";
 import { paragraphNodeView } from "./nodes/paragraph";
+import { randomNodeView } from "./nodes/random";
 import { BaseState, basePluginKey } from "./state";
 
 export function basePluginFactory(
@@ -40,7 +41,8 @@ export function basePluginFactory(
     props: {
       nodeViews: {
         paragraph: paragraphNodeView(ctx, options),
-        heading: headingNodeView(ctx, options)
+        heading: headingNodeView(ctx, options),
+        random: randomNodeView(ctx, options)
       }
     },
     key: basePluginKey
