@@ -1,14 +1,17 @@
+/**
+ * @jest-environment jsdom
+ */
 import "@testing-library/jest-dom";
-import React from "react";
 import { render } from "@testing-library/react";
-import { PressEditor } from ".";
+import React from "react";
+import { PressEditor } from "..";
 
-describe("PressEditor tests", () => {
-  test("Can mount", () => {
+describe("PressEditor", () => {
+  test("should mount", () => {
     const { container } = render(<PressEditor />);
     expect(container.getElementsByClassName("ProseMirror").length).toBeTruthy();
   });
-  test("See placeholder", () => {
+  test("should see placeholder", () => {
     const { container } = render(<PressEditor />);
     expect(
       container.querySelectorAll("[data-placeholder]").length

@@ -3,7 +3,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest"
   },
-  preset: "ts-jest",
+  preset: "jest-puppeteer",
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   moduleNameMapper: {

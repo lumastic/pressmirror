@@ -1,4 +1,3 @@
-import { Node } from "prosemirror-model";
 import { EditorState } from "prosemirror-state";
 import React from "react";
 import { EditorViewProvider, PluginsProvider } from "./providers";
@@ -23,7 +22,7 @@ export interface EditorProps {
   appearance?: EditorAppearance;
   onEditorReady?: (ctx: EditorContext, defaultState: EditorState) => void;
   onDocumentEdit?: (newState: EditorState) => void;
-  initialDoc?: JSON;
+  initialDoc?: Record<string, unknown>;
   className?: string;
   placeholder?: string;
 }

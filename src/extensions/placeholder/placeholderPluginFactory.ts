@@ -18,7 +18,6 @@ export const placeholderPluginFactory = ({
           doc.firstChild.content.size === 0;
 
         if (hasNoChildren || isEmptyTextBlock) {
-          console.log("Here");
           const position = doc.inlineContent ? 0 : 1;
           const placeholder = document.createElement("span");
           placeholder.classList.add(className);

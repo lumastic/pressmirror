@@ -3,6 +3,7 @@ import { DirectEditorProps, EditorView } from "prosemirror-view";
 import { EditorState, Transaction } from "prosemirror-state";
 import { EditorProps } from "./types";
 import { useEditorContext } from "./context/useEditorContext";
+import "prosemirror-view/style/prosemirror.css";
 
 export function Editor(props: EditorProps): ReactElement {
   const ctx = useEditorContext();

@@ -177,7 +177,30 @@ export class ReactNodeView<
     // utilize it so this returns false and the update is processed by PM default behavior.
     // Might be relevant
     // https://discuss.prosemirror.net/t/how-to-modify-node-attribute-without-replacing-it-and-causing-it-to-re-render/2510/9
-    if (node.type !== this.node.type) return false;
+    if (node.type.name === "paragraph" && this.node.type.name === "heading") {
+      console.log("Convert heading to paragraph");
+      this.dom.classList.replace(
+        `heading__nodeview-dom`,
+        `paragraph__nodeview-dom`
+      );
+      this.dom.firstElementChild.classList.remove(
+        `Type__h${this.node.attrs.level}`
+      );
+    } else if (
+      node.type.name === "heading" &&
+      this.node.type.name === "paragraph"
+    ) {
+      console.log("Convert paragraph to heading");
+      this.dom.classList.replace(
+        `paragraph__nodeview-dom`,
+        `heading__nodeview-dom`
+      );
+      this.dom.firstElementChild.classList.add(`Type__h${node.attrs.level}`);
+      // this.dom.firstElementChild.setT = "div";
+      // console.log(Node.fromJSON(schema, ));
+    } else if (node.type !== this.node.type) {
+      return false;
+    }
     this.node = node;
     // TODO pass down also type & marks & decorations if changed?
     this.portalProvider.update(this.dom, this.createProps(node));

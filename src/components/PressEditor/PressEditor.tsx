@@ -61,7 +61,7 @@ const PressEditor = ({
 };
 
 const Debugger = ({ state }: { state: EditorState }): React.ReactElement => {
-  return <pre>{JSON.stringify(state.doc, null, 2)}</pre>;
+  return <pre>{JSON.stringify(state, null, 2)}</pre>;
 };
 
 export default PressEditor;
@@ -94,7 +94,7 @@ export type PressEditorProps = {
   /**
    * Default value of the editor when it's mounted
    */
-  defaultValue?: JSON;
+  defaultValue?: Record<string, unknown>;
   /**
    * Placeholder text
    */

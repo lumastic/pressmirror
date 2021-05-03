@@ -15,6 +15,7 @@ const Heading = forwardRef(
       setLevel(newProps.attrs.level);
     }
     return <Type {...{ [`h${level}`]: true }} ref={ref} />;
+    // return <div ref={ref} className={"heading"} />;
   }
 );
 
@@ -39,7 +40,7 @@ const heading: NodeSpec = {
 export class HeadingView extends ReactNodeView {
   createContentDOM(): HTMLElement {
     const contentDOM = document.createElement("div");
-    contentDOM.classList.add(`${this.node.type.name}__content-dom`);
+    contentDOM.classList.add(`content-dom`);
     return contentDOM;
   }
 }
