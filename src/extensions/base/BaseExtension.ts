@@ -2,7 +2,7 @@ import { baseKeymap } from "prosemirror-commands";
 import { history, redo, undo } from "prosemirror-history";
 import { keymap } from "prosemirror-keymap";
 import { EditorState, PluginKey } from "prosemirror-state";
-import { toggleHeading } from "../../commands/toggleHeadingCommand";
+import toggleHeadingCommand from "../../commands/toggleHeadingCommand";
 import toggleMarkCommand from "../../commands/toggleMarkCommand";
 import { Extension, ExtensionPlugin, IExtensionSchema } from "../Extension";
 import { basePluginFactory } from "./basePluginFactory";
@@ -55,7 +55,8 @@ export class BaseExtension extends Extension<Record<string, unknown>> {
             "Mod-Shift-z": redo,
             "Mod-b": toggleBold,
             "Mod-i": toggleItalic,
-            "Mod-Shift-1": toggleHeading
+            "Mod-Shift-1": toggleHeadingCommand(1),
+            "Mod-Shift-2": toggleHeadingCommand(2)
           })
       },
       { name: "base", plugin: () => basePluginFactory(this.ctx, this.props) }

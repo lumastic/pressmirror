@@ -110,7 +110,12 @@ export class ReactNodeView<
       this.portalProvider
     );
     this.renderReactComponent(
-      this.render(this.createProps(this.node), this.handleRef, useListenProps)
+      this.render(
+        this.createProps(this.node),
+        this.handleRef,
+        useListenProps,
+        this.setNodeAttrs
+      )
     );
 
     return this;
@@ -158,15 +163,30 @@ export class ReactNodeView<
   render(
     initialProps: NodeViewProps<P, A>,
     forwardRef: ForwardRef,
-    useListenProps: (cb: (newProps: NodeViewProps<P, A>) => void) => void
+    useListenProps: (cb: (newProps: NodeViewProps<P, A>) => void) => void,
+    setNodeAttrs: any
   ): React.ReactElement<any> | null {
     return this.reactComponent ? (
       <this.reactComponent
         ref={forwardRef}
         initialProps={initialProps}
         useListenProps={useListenProps}
+        setAttrs={setNodeAttrs}
       />
     ) : null;
+  }
+
+  setNodeAttrs(attrs: Record<string, unknown>): void {
+    let position = 0;
+    if (typeof this.getPos === "function") {
+      position = this.getPos();
+    }
+    console.log("here");
+    console.log(position);
+    this.view.state.tr.setNodeMarkup(position, null, {
+      ...this.node.attrs,
+      ...attrs
+    });
   }
 
   update(node: PMNode, _decorations: Decoration[]): boolean {
@@ -178,7 +198,7 @@ export class ReactNodeView<
     // Might be relevant
     // https://discuss.prosemirror.net/t/how-to-modify-node-attribute-without-replacing-it-and-causing-it-to-re-render/2510/9
     if (node.type.name === "paragraph" && this.node.type.name === "heading") {
-      console.log("Convert heading to paragraph");
+      // Custom DOM conversion of heading to paragraph Node
       this.dom.classList.replace(
         `heading__nodeview-dom`,
         `paragraph__nodeview-dom`
@@ -186,11 +206,12 @@ export class ReactNodeView<
       this.dom.firstElementChild.classList.remove(
         `Type__h${this.node.attrs.level}`
       );
+      console.log("Converted DOM structure");
     } else if (
       node.type.name === "heading" &&
       this.node.type.name === "paragraph"
     ) {
-      console.log("Convert paragraph to heading");
+      // Custom DOM conversion of paragraph to heading Node
       this.dom.classList.replace(
         `paragraph__nodeview-dom`,
         `heading__nodeview-dom`

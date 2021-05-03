@@ -1,20 +1,21 @@
+import { Type } from "lumastic-ui";
 import { Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
+import React, { forwardRef, useState } from "react";
 import { EditorContext } from "../../../core/types";
 import { ReactNodeView } from "../../../core/views/ReactNodeView";
-import { Type } from "lumastic-ui";
-import React, { forwardRef, useState } from "react";
 
 // eslint-disable-next-line react/display-name
 const Heading = forwardRef(
   (props: any = {}, ref): React.ReactElement => {
     const { initialProps, useListenProps } = props;
+    // console.log(props);
     useListenProps(handlePropsUpdate);
     const [level, setLevel] = useState(initialProps.attrs.level);
     function handlePropsUpdate(newProps: any) {
       setLevel(newProps.attrs.level);
     }
-    return <Type {...{ [`h${level}`]: true }} ref={ref} />;
+    return <Type {...{ [`h${level}`]: true }} tag="div" ref={ref} />;
     // return <div ref={ref} className={"heading"} />;
   }
 );
