@@ -19,7 +19,7 @@ const PressEditor = ({
   callbacks
 }: PressEditorProps): React.ReactElement => {
   // Create the providers for Editor
-  const providers = useMemo(() => createDefaultProviders(), []);
+  const providers = useMemo(() => createDefaultProviders(callbacks), []);
   // Setup variable to hold EditorState for debugging
   const [debugState, setDebugState] = useState<EditorState | undefined>(
     {} as EditorState
