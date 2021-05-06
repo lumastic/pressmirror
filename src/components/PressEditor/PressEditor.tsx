@@ -3,9 +3,10 @@ import React, { useCallback, useMemo, useState } from "react";
 import { Editor } from "../../core";
 import { ReactEditorContext } from "../../core/context/useEditorContext";
 import { createDefaultProviders } from "../../core/providers";
+import { Callbacks } from "../../core/providers/CallbacksProvider";
 import { EditorContext } from "../../core/types";
 import { PortalRenderer } from "../../core/views";
-import { Base, Placeholder } from "../../extensions";
+import { Base, Links, Placeholder } from "../../extensions";
 import styles from "./PressEditor.scss";
 
 const PressEditor = ({
@@ -14,7 +15,8 @@ const PressEditor = ({
   onChange,
   onMount,
   defaultValue,
-  placeholder = "Start typing..."
+  placeholder = "Start typing...",
+  callbacks
 }: PressEditorProps): React.ReactElement => {
   // Create the providers for Editor
   const providers = useMemo(() => createDefaultProviders(), []);
@@ -53,6 +55,7 @@ const PressEditor = ({
       >
         <Base />
         <Placeholder text={placeholder} className={styles.placeholder} />
+        <Links />
       </Editor>
       <PortalRenderer />
       {debug && <Debugger state={debugState} />}
@@ -99,4 +102,8 @@ export type PressEditorProps = {
    * Placeholder text
    */
   placeholder?: string;
+  /**
+   * Callbacks to be passed to the editor for things like uploading images and scraping links
+   */
+  callbacks?: Callbacks;
 };

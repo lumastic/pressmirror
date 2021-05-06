@@ -1,13 +1,14 @@
 import { EditorState } from "prosemirror-state";
 import React from "react";
 import { EditorViewProvider, PluginsProvider } from "./providers";
+import { CallbacksProvider } from "./providers/CallbacksProvider";
 import { ExtensionProvider } from "./providers/ExtensionProvider";
 import { PortalProvider } from "./providers/PortalProvider";
 
 export type EditorContext = {
   // analyticsProvider: AnalyticsProvider
   // apiProvider: APIProvider
-  // collabProvider: CollabProvider
+  callbacksProvider: CallbacksProvider;
   extensionProvider: ExtensionProvider;
   pluginsProvider: PluginsProvider;
   portalProvider: PortalProvider;

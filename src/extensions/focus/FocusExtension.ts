@@ -1,7 +1,6 @@
 import { EditorState, PluginKey } from "prosemirror-state";
 import { Extension, ExtensionPlugin } from "../Extension";
-import { focusPluginFactory } from "../plugins/focus";
-import { FocusPluginState } from "./focusPluginFactory";
+import { focusPluginFactory, FocusPluginState } from "./focusPluginFactory";
 import { focusPluginKey } from "./focusPluginKey";
 
 export class FocusExtention extends Extension<Record<string, unknown>> {

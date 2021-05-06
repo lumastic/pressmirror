@@ -1,6 +1,6 @@
 describe("Link mark", () => {
-  const EXAMPLE_LINK = "https://www.lumastic.com";
   let editor, frame;
+  const EXAMPLE_LINK = "https://www.lumastic.com";
   beforeEach(async () => {
     await page.goto("http://localhost:6006/?path=/story/presseditor--basic");
     await page.waitForTimeout(2000);
@@ -43,5 +43,31 @@ describe("Link mark", () => {
       doc?.doc.content[0].content[1].marks.find((mark) => mark.type === "link")
         .attrs.href
     ).toBe(EXAMPLE_LINK);
+  }, 120000);
+
+  test("should create link_node from pasted link", async () => {
+    await editor.focus();
+    // Fire the paste event with the content being the link
+    await frame.evaluate(() => {
+      const pasteLink = "https://www.lumastic.com";
+      const event = Object.assign(
+        new Event("paste", { bubbles: true, cancelable: true }),
+        {
+          clipboardData: {
+            getData: (type = "text") => pasteLink
+          }
+        }
+      );
+      document.activeElement.dispatchEvent(event);
+    });
+    // Grab the document json from the debugger
+    const doc = await frame.$eval("#root > pre", (element) => {
+      return JSON.parse(element.innerHTML);
+    });
+    // console.log(JSON.stringify(doc));
+
+    expect(doc?.doc.content[1].type).toBe("link_node");
+    expect(doc?.doc.content[1].attrs.href).toBe(EXAMPLE_LINK);
+    expect(doc?.doc.content[0].type).toBe("paragraph");
   }, 120000);
 });

@@ -8,8 +8,13 @@ import { PressEditor } from ".";
 The `PressEditor` component is Lumastic's implementations of the [ProseMirror](https://prosemirror.net/docs/guide/) editor:
 
 <Story name="Basic">
-  <PressEditor debug />
+  <PressEditor
+    debug
+    onChange={(state) => localStorage.setItem("editor", JSON.stringify(state))}
+  />
 </Story>
+
+## Passing a `defaultValue`
 
 The `PressEditor` can take a `defaultValue` prop.
 
@@ -33,7 +38,7 @@ The `PressEditor` can take a `defaultValue` prop.
   />
 </Story>
 
-The `PressEditor` can take a `defaultValue` prop.
+## Heading example
 
 <Story name="Heading">
   <PressEditor
@@ -58,17 +63,42 @@ The `PressEditor` can take a `defaultValue` prop.
   />
 </Story>
 
-<Story name="Random">
+## Example custom `ReactNodeView` block node
+
+Each `PressComponent` is given a `setAttrs` prop that allows it to control its attributes and state independently of the document.
+
+<Story name="setAttrs">
   <PressEditor
     debug
     defaultValue={{
       type: "doc",
       content: [
         {
-          type: "random"
-        },
+          type: "count"
+        }
+      ]
+    }}
+  />
+</Story>
+
+## `link_node`
+
+Each `PressComponent` is given a `setAttrs` prop that allows it to control its attributes and state independently of the document.
+
+<Story name="link_node">
+  <PressEditor
+    debug
+    defaultValue={{
+      type: "doc",
+      content: [
         {
           type: "paragraph"
+        },
+        {
+          type: "link_node",
+          attrs: {
+            url: "https://join.lumastic.com/stories/surfing"
+          }
         }
       ]
     }}

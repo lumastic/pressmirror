@@ -4,15 +4,21 @@ import { Node as PMNode } from "prosemirror-model";
 import { PortalProvider } from "../providers";
 import { EditorContext } from "../types";
 import { createListenProps } from "../context/createListenProps";
+import { CallbacksProvider } from "../providers/CallbacksProvider";
 
-export type ReactComponentProps = { [key: string]: unknown };
+export type ReactComponentProps = {
+  initialProps: NodeViewProps;
+  useListenProps: (cb: (newProps: NodeViewProps<any, any>) => void) => void;
+  callbacks: CallbacksProvider;
+  setAttrs: (attrs: Record<string, unknown>) => void;
+};
 export interface Attrs {
   [key: string]: any;
 }
 export type ForwardRef = (node: HTMLElement | null) => void;
 
 export interface NodeViewProps<
-  P = ReactComponentProps,
+  P = Record<string, unknown>,
   A extends Attrs = Record<string, unknown>
 > {
   componentProps: P;
@@ -20,7 +26,7 @@ export interface NodeViewProps<
 }
 
 export class ReactNodeView<
-  P = ReactComponentProps,
+  P = Record<string, unknown>,
   A extends Attrs = Record<string, unknown>
 > implements NodeView {
   /**
@@ -43,6 +49,7 @@ export class ReactNodeView<
 
   private reactComponent?: React.ComponentType<any>;
   private portalProvider: PortalProvider;
+  private callbacksProvider: CallbacksProvider;
   private ctx: EditorContext;
 
   reactComponentProps: P;
@@ -60,6 +67,7 @@ export class ReactNodeView<
     this.getPos = getPos;
     this.ctx = ctx;
     this.portalProvider = ctx.portalProvider;
+    this.callbacksProvider = ctx.callbacksProvider;
     this.reactComponentProps = reactComponentProps || ({} as P);
     this.reactComponent = reactComponent;
   }
@@ -165,12 +173,17 @@ export class ReactNodeView<
         ref={forwardRef}
         initialProps={initialProps}
         useListenProps={useListenProps}
-        setAttrs={(attrs) => {
+        callbacks={this.callbacksProvider}
+        setAttrs={(attrs: Record<string, unknown>) => {
           this.view.dispatch(
-            this.view.state.tr.setNodeMarkup(this.getPos(), null, {
-              ...this.node.attrs,
-              ...attrs
-            })
+            this.view.state.tr.setNodeMarkup(
+              typeof this?.getPos === "function" && this.getPos(),
+              null,
+              {
+                ...this.node.attrs,
+                ...attrs
+              }
+            )
           );
         }}
       />

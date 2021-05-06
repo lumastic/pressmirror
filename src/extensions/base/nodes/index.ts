@@ -7,4 +7,4 @@ export { default as code_block } from "./code_block";
 export { default as text } from "./text";
 export { default as gallery } from "./gallery";
 export { default as hard_break } from "./hard_break";
-export { default as random } from "./random";
+export { default as count } from "./count";

@@ -8,7 +8,7 @@ import toggleMarkCommand from "../../commands/toggleMarkCommand";
 import { Extension, ExtensionPlugin, IExtensionSchema } from "../Extension";
 import { basePluginFactory } from "./basePluginFactory";
 import { italic, strong, link, underline } from "./marks";
-import { doc, heading, paragraph, text, random } from "./nodes";
+import { doc, heading, paragraph, text, count } from "./nodes";
 import { basePluginKey, BaseState, getPluginState } from "./state";
 
 const toggleBold = toggleMarkCommand("strong");
@@ -16,7 +16,7 @@ const toggleItalic = toggleMarkCommand("italic");
 const toggleUnderline = toggleMarkCommand("underline");
 
 export const baseSchema: IExtensionSchema = {
-  nodes: { doc, paragraph, text, heading, random },
+  nodes: { doc, paragraph, text, heading, count },
   marks: { italic, strong, link, underline }
 };
 export class BaseExtension extends Extension<Record<string, unknown>> {
