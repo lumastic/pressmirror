@@ -1,7 +1,6 @@
+@import "../../../styles/mixins.scss";
 .container {
-  border: 1px solid var(--border-color);
-  border-radius: 0.25rem;
-  overflow: hidden;
+  @include component_container;
   display: flex;
   align-items: center;
   text-decoration: none;

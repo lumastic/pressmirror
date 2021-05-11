@@ -3,11 +3,11 @@ import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { Type, LoadingSpinner } from "lumastic-ui";
 import { classNames } from "lumastic-ui/helpers";
-import { EditorContext } from "../../../core/types";
+import { EditorContext } from "../../../../core/types";
 import {
   ReactNodeView,
   ReactComponentProps
-} from "../../../core/views/ReactNodeView";
+} from "../../../../core/views/ReactNodeView";
 import moment from "moment";
 import styles from "./link_node.scss";
 
@@ -93,7 +93,7 @@ type linkNodeAttrs = {
   lastScrape: string | null;
 };
 
-const link_node: NodeSpec = {
+export const link_node: NodeSpec = {
   group: "block",
   attrs: {
     url: { default: "" },

@@ -26,4 +26,5 @@ export interface EditorProps {
   initialDoc?: Record<string, unknown>;
   className?: string;
   placeholder?: string;
+  readOnly?: boolean;
 }

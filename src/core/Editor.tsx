@@ -62,7 +62,7 @@ export function Editor(props: EditorProps): ReactElement {
         }
       },
       // Disables the contentEditable attribute of the editor if the editor is disabled
-      editable: (_state) => !props.disabled,
+      editable: (_state) => !props.readOnly,
       attributes: { "data-gramm": "false" }
     };
   }

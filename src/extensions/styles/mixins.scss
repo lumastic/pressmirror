@@ -1,0 +1,5 @@
+@mixin component_container {
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}

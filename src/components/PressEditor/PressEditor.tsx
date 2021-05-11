@@ -6,7 +6,7 @@ import { createDefaultProviders } from "../../core/providers";
 import { Callbacks } from "../../core/providers/CallbacksProvider";
 import { EditorContext } from "../../core/types";
 import { PortalRenderer } from "../../core/views";
-import { Base, Links, Placeholder } from "../../extensions";
+import { Base, Embeds, Placeholder } from "../../extensions";
 import styles from "./PressEditor.scss";
 
 const PressEditor = ({
@@ -15,6 +15,7 @@ const PressEditor = ({
   onChange,
   onMount,
   defaultValue,
+  readOnly = false,
   placeholder = "Start typing...",
   callbacks
 }: PressEditorProps): React.ReactElement => {
@@ -52,10 +53,11 @@ const PressEditor = ({
         initialDoc={defaultValue}
         className={className}
         placeholder={placeholder}
+        readOnly={readOnly}
       >
         <Base />
         <Placeholder text={placeholder} className={styles.placeholder} />
-        <Links />
+        <Embeds />
       </Editor>
       <PortalRenderer />
       {debug && <Debugger state={debugState} />}
@@ -98,6 +100,10 @@ export type PressEditorProps = {
    * Default value of the editor when it's mounted
    */
   defaultValue?: Record<string, unknown>;
+  /**
+   * Puts the editor in readOnly mode
+   */
+  readOnly?: boolean;
   /**
    * Placeholder text
    */

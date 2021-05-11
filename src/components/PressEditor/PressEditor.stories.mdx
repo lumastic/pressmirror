@@ -104,3 +104,46 @@ Each `PressComponent` is given a `setAttrs` prop that allows it to control its a
     }}
   />
 </Story>
+
+## `readOnly`
+
+Rather than having a `PressRenderer` component, `PressEditor` has a `readOnly` prop that makes it uneditable.
+
+<Story name="readOnly">
+  <PressEditor
+    readOnly
+    defaultValue={{
+      type: "doc",
+      content: [
+        {
+          type: "heading",
+          attrs: {
+            level: 1
+          },
+          content: [
+            {
+              type: "text",
+              text: "Heading"
+            }
+          ]
+        },
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text:
+                "Hello everyone and welcome to this text that I am writing as an example paragraph"
+            }
+          ]
+        },
+        {
+          type: "link_node",
+          attrs: {
+            url: "https://join.lumastic.com/stories/surfing"
+          }
+        }
+      ]
+    }}
+  />
+</Story>
