@@ -4,6 +4,7 @@ import { EditorState, Transaction } from "prosemirror-state";
 import { EditorProps } from "./types";
 import { useEditorContext } from "./context/useEditorContext";
 import "prosemirror-view/style/prosemirror.css";
+import { suggestionPluginKey } from "../extensions/suggestion";
 
 export function Editor(props: EditorProps): ReactElement {
   const ctx = useEditorContext();
@@ -14,6 +15,7 @@ export function Editor(props: EditorProps): ReactElement {
     // collabProvider,
     portalProvider
   } = ctx;
+  suggestionPluginKey.getState(viewProvider._editorView.state);
   const editorViewRef = useRef(null);
   const [canDispatchTransactions, setCanDispatchTransactions] = useState(true);
 
