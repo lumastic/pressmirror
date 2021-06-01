@@ -207,7 +207,6 @@ export class ReactNodeView<
       this.dom.firstElementChild.classList.remove(
         `Type__h${this.node.attrs.level}`
       );
-      console.log("Converted DOM structure");
     } else if (
       node.type.name === "heading" &&
       this.node.type.name === "paragraph"

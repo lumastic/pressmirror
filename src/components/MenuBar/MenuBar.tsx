@@ -26,7 +26,7 @@ const MenuBar = ({
             command={toggleMarkCommand("underline")}
             mark="underline"
           >
-            U
+            <u>U</u>
           </FormatButton>
           <FormatButton command={toggleMarkCommand("italic")} mark="italic">
             <em>I</em>

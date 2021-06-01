@@ -13,9 +13,10 @@ export class EditorViewProvider {
 
   get editorView(): EditorView {
     if (!this._editorView) {
-      throw Error(
+      console.error(
         "EditorViewProvider editorView accessed without editorView instance"
       );
+      return {} as EditorView;
     }
     return this._editorView;
   }
