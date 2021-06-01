@@ -1,0 +1,15 @@
+.menubar {
+  padding: var(--spacing-small) 0 0;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--spacing-small) / 2) 0;
+}
+.leftbtns {
+  display: flex;
+  align-items: center;
+  > button:not(:last-child) {
+    margin-right: 1px;
+  }
+}

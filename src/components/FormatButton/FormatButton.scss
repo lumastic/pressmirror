@@ -1,0 +1,20 @@
+.formatbutton {
+  border: none;
+  border-radius: 0.25em;
+  color: inherit;
+  background-color: inherit;
+  padding: var(--spacing-small) calc(var(--spacing-small) + 0.2rem);
+  box-sizing: content-box;
+  min-width: 1em;
+  line-height: 1;
+  transition: background-color 0.1s ease-in-out;
+  font-size: 1em;
+  &:hover,
+  &.active {
+    cursor: pointer;
+    background-color: var(--bg-color-hover);
+  }
+  &:active {
+    background-color: var(--bg-color-active);
+  }
+}

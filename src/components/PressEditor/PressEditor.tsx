@@ -7,6 +7,7 @@ import { Callbacks } from "../../core/providers/CallbacksProvider";
 import { EditorContext } from "../../core/types";
 import { PortalRenderer } from "../../core/views";
 import { Base, Embeds, Placeholder } from "../../extensions";
+import { MenuBar } from "../MenuBar";
 import styles from "./PressEditor.scss";
 
 const PressEditor = ({
@@ -16,6 +17,7 @@ const PressEditor = ({
   onMount,
   defaultValue,
   readOnly = false,
+  menuBar = false,
   placeholder = "Start typing...",
   callbacks
 }: PressEditorProps): React.ReactElement => {
@@ -60,6 +62,7 @@ const PressEditor = ({
         <Embeds />
       </Editor>
       <PortalRenderer />
+      {menuBar && <MenuBar />}
       {debug && <Debugger state={debugState} />}
     </ReactEditorContext.Provider>
   );
@@ -104,6 +107,10 @@ export type PressEditorProps = {
    * Puts the editor in readOnly mode
    */
   readOnly?: boolean;
+  /**
+   * Displays a format menu with clickable buttons on the editor
+   */
+  menuBar?: boolean;
   /**
    * Placeholder text
    */

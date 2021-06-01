@@ -15,7 +15,7 @@ export function Editor(props: EditorProps): ReactElement {
     // collabProvider,
     portalProvider
   } = ctx;
-  suggestionPluginKey.getState(viewProvider._editorView.state);
+  // suggestionPluginKey.getState(viewProvider._editorView.state);
   const editorViewRef = useRef(null);
   const [canDispatchTransactions, setCanDispatchTransactions] = useState(true);
 
