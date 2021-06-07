@@ -2,7 +2,7 @@ import React from "react";
 import { NodeView, EditorView, Decoration } from "prosemirror-view";
 import { Node as PMNode } from "prosemirror-model";
 import { PortalProvider } from "../providers";
-import { EditorContext } from "../types";
+import { ProviderContextType } from "../types";
 import { createListenProps } from "../context/createListenProps";
 import { CallbacksProvider } from "../providers/CallbacksProvider";
 
@@ -50,7 +50,7 @@ export class ReactNodeView<
   private reactComponent?: React.ComponentType<any>;
   private portalProvider: PortalProvider;
   private callbacksProvider: CallbacksProvider;
-  private ctx: EditorContext;
+  private ctx: ProviderContextType;
 
   reactComponentProps: P;
 
@@ -58,7 +58,7 @@ export class ReactNodeView<
     node: PMNode,
     view: EditorView,
     getPos: (() => number) | boolean,
-    ctx: EditorContext,
+    ctx: ProviderContextType,
     reactComponentProps?: P,
     reactComponent?: React.ComponentType<any>
   ) {
@@ -207,7 +207,6 @@ export class ReactNodeView<
       this.dom.firstElementChild.classList.remove(
         `Type__h${this.node.attrs.level}`
       );
-      console.log("Converted DOM structure");
     } else if (
       node.type.name === "heading" &&
       this.node.type.name === "paragraph"
@@ -273,7 +272,7 @@ export class ReactNodeView<
 
   static fromComponent(
     component: React.ComponentType<any>,
-    ctx: EditorContext,
+    ctx: ProviderContextType,
     props?: ReactComponentProps
   ) {
     return (

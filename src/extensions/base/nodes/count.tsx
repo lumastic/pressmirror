@@ -2,7 +2,7 @@ import { Button } from "lumastic-ui";
 import { Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useState } from "react";
-import { EditorContext } from "../../../core/types";
+import { ProviderContext } from "../../../core/types";
 import { ReactNodeView } from "../../../core/views/ReactNodeView";
 
 // eslint-disable-next-line react/display-name
@@ -47,7 +47,7 @@ const count: NodeSpec = {
 };
 
 export function countNodeView(
-  ctx: EditorContext,
+  ctx: ProviderContext,
   options?: Record<string, unknown>
 ) {
   return (

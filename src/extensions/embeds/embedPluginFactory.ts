@@ -1,11 +1,11 @@
 import { Plugin } from "prosemirror-state";
-import { EditorContext } from "../../core/types";
+import { ProviderContext } from "../../core/types";
 import { embedPluginKey } from "./embedPluginKey";
 import { linkNodeView } from "./nodes";
 import { youtubeNodeView } from "./nodes/youtube_embed";
 
 export function embedPluginFactory(
-  ctx: EditorContext,
+  ctx: ProviderContext,
   options: Record<string, unknown>
 ): Plugin {
   return new Plugin({

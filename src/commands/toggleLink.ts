@@ -12,6 +12,9 @@ export function toggleLink(
     return true;
   }
   const href = window.prompt("Enter a link", "");
-  toggleMark(linkMark, { href })(state, dispatch);
+  if (href) {
+    toggleMark(linkMark, { href })(state, dispatch);
+  }
+
   //   return true;
 }

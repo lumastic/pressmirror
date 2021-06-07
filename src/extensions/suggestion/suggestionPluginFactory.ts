@@ -1,6 +1,6 @@
 import { Plugin } from "prosemirror-state";
 import { Suggester } from "prosemirror-suggest";
-import { EditorContext } from "../../core/types";
+import { ProviderContextType } from "../../core/types";
 import { suggestionPluginKey } from "./suggestionPluginKey";
 
 const maxResults = 10;
@@ -9,7 +9,7 @@ let emojiList: string[] = [];
 let showSuggestions = false;
 
 export function suggestionPluginFactory(
-  ctx: EditorContext,
+  ctx: ProviderContextType,
   options: Record<string, unknown>
 ): Plugin {
   const suggestEmojis: Suggester = {
