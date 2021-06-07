@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from "prosemirror-state";
 import { NodeSpec, MarkSpec } from "prosemirror-model";
-import { EditorContext } from "../core/types";
+import { ProviderContext } from "../core/types";
 
 export interface IExtensionSchema {
   nodes?: { [key: string]: NodeSpec };
@@ -15,15 +15,15 @@ export interface IExtension<T> {
   onDestroy: () => void;
 }
 export interface IExtensionClass<T> {
-  new (ctx: EditorContext, props: T): Extension<T>;
+  new (ctx: ProviderContext, props: T): Extension<T>;
   readonly pluginKey: PluginKey | null;
 }
 
 export class Extension<T> implements IExtension<T> {
-  ctx: EditorContext;
+  ctx: ProviderContext;
   props: T;
 
-  constructor(ctx: EditorContext, props: T) {
+  constructor(ctx: ProviderContext, props: T) {
     this.ctx = ctx;
     this.props = props;
   }

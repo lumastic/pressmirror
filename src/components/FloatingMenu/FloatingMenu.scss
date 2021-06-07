@@ -1,0 +1,18 @@
+.floatingmenu {
+  background-color: var(--bg-color-dark);
+  position: absolute;
+  border-radius: 0.25em;
+  opacity: 0;
+  color: white;
+  z-index: 9999;
+  &::after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    left: 50%;
+    margin-left: -5px;
+    top: 100%;
+    border-color: var(--bg-color-dark) transparent transparent transparent;
+  }
+}

@@ -5,10 +5,10 @@
   background-color: inherit;
   padding: var(--spacing-small) calc(var(--spacing-small) + 0.2rem);
   box-sizing: content-box;
-  min-width: 1em;
+  min-width: 0.9em;
   line-height: 1;
   transition: background-color 0.1s ease-in-out;
-  font-size: 1em;
+  font-size: 0.8rem;
   &:hover,
   &.active {
     cursor: pointer;

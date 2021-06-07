@@ -1,8 +1,11 @@
 import { classNames } from "lumastic-ui/helpers";
 import { Command } from "prosemirror-commands";
-import React, { useEffect } from "react";
+import React from "react";
 import { isMarkActive } from "../../commands/isMarkActive";
-import { useEditorContext } from "../../core/context/useEditorContext";
+import {
+  useEditorContext,
+  useProviderContext
+} from "../../core/context/useEditorContext";
 import style from "./FormatButton.scss";
 
 type FormatButtonProps = {
@@ -18,8 +21,10 @@ const FormatButton = ({
   className,
   children
 }: FormatButtonProps): React.ReactElement => {
-  const { viewProvider } = useEditorContext();
-  if (!viewProvider._editorView) return null;
+  const { viewProvider } = useProviderContext();
+  const hello = useEditorContext({ autoUpdate: true });
+  const { isInitialized } = viewProvider;
+  if (!isInitialized) return null;
   return (
     <button
       className={classNames(
@@ -27,7 +32,7 @@ const FormatButton = ({
         {
           [style.active]: isMarkActive(
             viewProvider.editorView.state,
-            viewProvider.editorView.state.schema.marks[mark]
+            viewProvider.editorView.state?.schema.marks[mark]
           )
         },
         className

@@ -3,7 +3,7 @@ import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { Type, LoadingSpinner } from "lumastic-ui";
 import { classNames } from "lumastic-ui/helpers";
-import { EditorContext } from "../../../../core/types";
+import { ProviderContextType } from "../../../../core/types";
 import {
   ReactNodeView,
   ReactComponentProps
@@ -70,7 +70,7 @@ const LinkNode = forwardRef(
           </>
         ) : (
           <div>
-            <Type align="center">
+            <Type align="center" tag="div">
               <LoadingSpinner />
             </Type>
             <Type align="center" color="secondary">
@@ -110,7 +110,7 @@ export const link_node: NodeSpec = {
 };
 
 export function linkNodeView(
-  ctx: EditorContext,
+  ctx: ProviderContextType,
   options?: Record<string, unknown>
 ) {
   return (

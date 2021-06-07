@@ -1,13 +1,13 @@
 import { Plugin } from "prosemirror-state";
 import { getActiveMarks } from "../../commands/getActiveMarks";
-import { EditorContext } from "../../core/types";
+import { ProviderContextType } from "../../core/types";
 import { headingNodeView } from "./nodes/heading";
 import { paragraphNodeView } from "./nodes/paragraph";
 import { countNodeView } from "./nodes/count";
 import { BaseState, basePluginKey } from "./state";
 
 export function basePluginFactory(
-  ctx: EditorContext,
+  ctx: ProviderContextType,
   options: Record<string, unknown>
 ): Plugin {
   const { pluginsProvider } = ctx;

@@ -2,7 +2,7 @@ import { Type } from "lumastic-ui";
 import { Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useState } from "react";
-import { EditorContext } from "../../../core/types";
+import { ProviderContext } from "../../../core/types";
 import { ReactNodeView } from "../../../core/views/ReactNodeView";
 
 // eslint-disable-next-line react/display-name
@@ -47,7 +47,7 @@ export class HeadingView extends ReactNodeView {
 }
 
 export function headingNodeView(
-  ctx: EditorContext,
+  ctx: ProviderContext,
   options?: Record<string, unknown>
 ) {
   return (

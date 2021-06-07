@@ -2,7 +2,7 @@ import { Type } from "lumastic-ui";
 import { DOMOutputSpec, Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef } from "react";
-import { EditorContext } from "../../../core/types";
+import { ProviderContext } from "../../../core/types";
 import { ReactNodeView } from "../../../core/views/ReactNodeView";
 
 // eslint-disable-next-line react/display-name
@@ -31,7 +31,7 @@ export class ParagraphView extends ReactNodeView {
 }
 
 export function paragraphNodeView(
-  ctx: EditorContext,
+  ctx: ProviderContext,
   options?: Record<string, unknown>
 ) {
   return (

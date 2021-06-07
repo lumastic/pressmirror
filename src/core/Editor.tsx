@@ -2,12 +2,15 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { DirectEditorProps, EditorView } from "prosemirror-view";
 import { EditorState, Transaction } from "prosemirror-state";
 import { EditorProps } from "./types";
-import { useEditorContext } from "./context/useEditorContext";
+import {
+  useEditorContext,
+  useProviderContext
+} from "./context/useEditorContext";
 import "prosemirror-view/style/prosemirror.css";
 import { suggestionPluginKey } from "../extensions/suggestion";
 
 export function Editor(props: EditorProps): ReactElement {
-  const ctx = useEditorContext();
+  const ctx = useProviderContext();
   const {
     viewProvider,
     extensionProvider,
@@ -15,6 +18,7 @@ export function Editor(props: EditorProps): ReactElement {
     // collabProvider,
     portalProvider
   } = ctx;
+  const { updateHandlers } = useEditorContext();
   // suggestionPluginKey.getState(viewProvider._editorView.state);
   const editorViewRef = useRef(null);
   const [canDispatchTransactions, setCanDispatchTransactions] = useState(true);
@@ -29,6 +33,7 @@ export function Editor(props: EditorProps): ReactElement {
       if (props.onEditorReady) {
         props.onEditorReady(ctx, state);
       }
+      updateHandlers(ctx);
     }
     return () => {
       viewProvider.editorView.destroy();
@@ -120,6 +125,7 @@ export function Editor(props: EditorProps): ReactElement {
     if (props.onDocumentEdit) {
       props.onDocumentEdit(newState);
     }
+    updateHandlers(ctx);
     // if (collabProvider.isCollaborating) {
     // collabProvider.sendSteps(newState);
     // }

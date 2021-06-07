@@ -6,17 +6,22 @@ import { parseRawValue } from "../../utils/parseRawValue";
 
 export class EditorViewProvider {
   _editorView?: EditorView;
+  _isInitialized?: boolean;
 
   init(view: EditorView): void {
     this._editorView = view;
+    this._isInitialized = true;
+  }
+
+  get isInitialized(): boolean {
+    return this._isInitialized || false;
   }
 
   get editorView(): EditorView {
     if (!this._editorView) {
-      console.error(
+      throw Error(
         "EditorViewProvider editorView accessed without editorView instance"
       );
-      return {} as EditorView;
     }
     return this._editorView;
   }

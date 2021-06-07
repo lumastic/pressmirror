@@ -1,7 +1,7 @@
 import { ExtensionProvider } from "./ExtensionProvider";
 import { EditorViewProvider } from "./EditorViewProvider";
 import { PluginsProvider } from "./PluginsProvider";
-import { EditorContext } from "../types";
+import { ProviderContextType } from "../types";
 import { PortalProvider } from "./PortalProvider";
 import {
   Callbacks,
@@ -11,7 +11,7 @@ import {
 
 export const createDefaultProviders = (
   callbacks?: Callbacks
-): EditorContext => {
+): ProviderContextType => {
   // const analyticsProvider = new AnalyticsProvider();
   // const apiProvider = new APIProvider();
   const extensionProvider = new ExtensionProvider();

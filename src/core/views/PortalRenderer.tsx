@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { useEditorContext } from "../context/useEditorContext";
+import { useProviderContext } from "../context/useEditorContext";
 
 /**
  * Component to render the mounted nodeViews as portals.
  */
 export function PortalRenderer(): React.ReactElement {
-  const { portalProvider } = useEditorContext();
+  const { portalProvider } = useProviderContext();
   const [_ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [portals, setPortals] = useState<Map<HTMLElement, React.ReactPortal>>(
     new Map()

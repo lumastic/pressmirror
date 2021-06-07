@@ -1,7 +1,7 @@
 import { Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { EditorContext } from "../../../../core/types";
+import { ProviderContext } from "../../../../core/types";
 import {
   ReactComponentProps,
   ReactNodeView
@@ -91,7 +91,7 @@ export const youtube_embed: NodeSpec = {
 };
 
 export function youtubeNodeView(
-  ctx: EditorContext,
+  ctx: ProviderContext,
   options?: Record<string, unknown>
 ) {
   return (

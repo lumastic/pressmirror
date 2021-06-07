@@ -1,12 +1,12 @@
 import { EditorState } from "prosemirror-state";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Editor } from "../../core";
-import { ReactEditorContext } from "../../core/context/useEditorContext";
-import { createDefaultProviders } from "../../core/providers";
+import { EditorManager } from "../../core/context/EditorManager";
 import { Callbacks } from "../../core/providers/CallbacksProvider";
-import { EditorContext } from "../../core/types";
+import { ProviderContextType } from "../../core/types";
 import { PortalRenderer } from "../../core/views";
 import { Base, Embeds, Placeholder } from "../../extensions";
+import { FloatingMenu } from "../FloatingMenu";
 import { MenuBar } from "../MenuBar";
 import styles from "./PressEditor.scss";
 
@@ -18,11 +18,10 @@ const PressEditor = ({
   defaultValue,
   readOnly = false,
   menuBar = false,
+  floatingMenu = false,
   placeholder = "Start typing...",
   callbacks
 }: PressEditorProps): React.ReactElement => {
-  // Create the providers for Editor
-  const providers = useMemo(() => createDefaultProviders(callbacks), []);
   // Setup variable to hold EditorState for debugging
   const [debugState, setDebugState] = useState<EditorState | undefined>(
     {} as EditorState
@@ -41,14 +40,14 @@ const PressEditor = ({
    * Function to be run when Editor is mounted and ready
    */
   const onEditorReady = useCallback(
-    (context: EditorContext, newState: EditorState) => {
+    (context: ProviderContextType, newState: EditorState) => {
       if (onMount) onMount(newState);
       onDocumentEdit(newState);
     },
     [onDocumentEdit]
   );
   return (
-    <ReactEditorContext.Provider value={providers}>
+    <EditorManager callbacks={callbacks}>
       <Editor
         onDocumentEdit={onDocumentEdit}
         onEditorReady={onEditorReady}
@@ -63,8 +62,9 @@ const PressEditor = ({
       </Editor>
       <PortalRenderer />
       {menuBar && <MenuBar />}
+      {floatingMenu && <FloatingMenu />}
       {debug && <Debugger state={debugState} />}
-    </ReactEditorContext.Provider>
+    </EditorManager>
   );
 };
 
