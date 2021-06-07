@@ -9,6 +9,7 @@
 .leftbtns {
   display: flex;
   align-items: center;
+  flex-grow: 1;
   > button:not(:last-child) {
     margin-right: 1px;
   }
