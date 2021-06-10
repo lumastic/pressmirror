@@ -1,92 +1,97 @@
-import { Plugin } from "prosemirror-state";
-import { Suggester } from "prosemirror-suggest";
+import { ResolvedPos } from "prosemirror-model";
+import { Plugin, Transaction } from "prosemirror-state";
 import { ProviderContextType } from "../../core/types";
 import { suggestionPluginKey } from "./suggestionPluginKey";
-
-const maxResults = 10;
-let selectedIndex = 0;
-let emojiList: string[] = [];
-let showSuggestions = false;
 
 export function suggestionPluginFactory(
   ctx: ProviderContextType,
   options: Record<string, unknown>
 ): Plugin {
-  const suggestEmojis: Suggester = {
-    // By default decorations are used to highlight the currently matched
-    // suggestion in the dom.
-    // In this example we don't need decorations (in fact they cause problems when the
-    // emoji string replaces the query text in the dom).
-    noDecorations: true,
-    char: ":", // The character to match against
-    name: "emoji-suggestion", // a unique name
-    appendText: "", // Text to append to the created match
-
-    // Keybindings are similar to prosemirror keymaps with a few extra niceties.
-    // The key identifier can also include modifiers (e.g.) `Cmd-Space: () => false`
-    // Return true to prevent any further keyboard handlers from running.
-    keyBindings: {
-      // ArrowUp: () => {
-      //   selectedIndex = rotateSelectionBackwards(
-      //     selectedIndex,
-      //     emojiList.length
-      //   );
-      // },
-      // ArrowDown: () => {
-      //   selectedIndex = rotateSel(
-      //     selectedIndex,
-      //     emojiList.length
-      //   );
-      // },
-      Enter: ({ command }) => {
-        if (showSuggestions) {
-          command(emojiList[selectedIndex]);
-        }
-      },
-      Esc: () => {
-        showSuggestions = false;
-      }
-    },
-
-    // onChange: (params) => {
-    //   const query = params.query.full;
-    //   emojiList = sortEmojiMatches({ query, maxResults });
-    //   selectedIndex = 0;
-    //   showSuggestions = true;
-    // },
-
-    onExit: () => {
-      showSuggestions = false;
-      emojiList = [];
-      selectedIndex = 0;
-    },
-
-    // Create a  function that is passed into the change, exit and keybinding handlers.
-    // This is useful when these handlers are called in a different part of the app.
-    createCommand: ({ match, view }) => {
-      return (emoji, skinVariation) => {
-        if (!emoji) {
-          throw new Error(
-            "An emoji is required when calling the emoji suggesters command"
-          );
-        }
-
-        const tr = view.state.tr;
-        const { from, end: to } = match.range;
-        tr.insertText(emoji, from, to);
-        view.dispatch(tr);
-      };
-    }
-  };
-
-  // Create the plugin with the above configuration. It also supports multiple plugins being added.
-  // const suggestionPlugin = suggest(suggestEmojis);
-
   return new Plugin({
-    key: suggestionPluginKey
+    key: suggestionPluginKey,
+    state: {
+      init(): SuggestionState {
+        return {
+          active: false
+        };
+      },
+      apply(tr: Transaction): SuggestionState {
+        if (tr.selection.from !== tr.selection.to) {
+          return { active: false };
+        }
+        const match = getMatch(tr.selection.$from);
+        if (match) {
+          return match;
+        } else {
+          return { active: false };
+        }
+      }
+    }
   });
 }
 
 export type SuggestionState = {
-  focus: boolean;
+  active: boolean;
+  type?: string;
+  range?: {
+    from: number;
+    to: number;
+  };
+  text?: string;
+};
+
+export function getMatch($position: ResolvedPos): SuggestionState {
+  // take current para text content upto cursor start.
+  // this makes the regex simpler and parsing the matches easier.d
+  const parastart = $position.before();
+  const text = $position.doc.textBetween(parastart, $position.pos, "\n", "\0");
+
+  // only one of the below matches will be true.
+  const mentionMatch = text.match(suggestionRegex.mention);
+  const tagMatch = text.match(suggestionRegex.tag);
+  const emojiMatch = text.match(suggestionRegex.emoji);
+  const blockMatch = text.match(suggestionRegex.block);
+
+  const match = mentionMatch || tagMatch || emojiMatch || blockMatch;
+
+  // set type of match
+  let type;
+  if (mentionMatch) {
+    type = "mention";
+  } else if (tagMatch) {
+    type = "tag";
+  } else if (emojiMatch) {
+    type = "emoji";
+  } else if (blockMatch) {
+    type = "block";
+  }
+
+  // if match found, return match with useful information.
+  if (match) {
+    // adjust match.index to remove the matched extra space
+    match.index = match[0].startsWith(" ") ? match.index + 1 : match.index;
+    match[0] = match[0].startsWith(" ")
+      ? match[0].substring(1, match[0].length)
+      : match[0];
+
+    // The absolute position of the match in the document
+    const from = $position.start() + match.index;
+    const to = from + match[0].length;
+
+    const queryText = match[2];
+    return {
+      active: true,
+      range: { from: from, to: to },
+      text: queryText,
+      type: type
+    };
+  }
+  // else if no match don't return anything.
+}
+
+const suggestionRegex = {
+  mention: new RegExp("(^|\\s)" + "@" + "([\\w-\\+]+\\s?[\\w-\\+]*)$"),
+  tag: new RegExp("(^|\\s)" + "#" + "([\\w-]+)$"),
+  emoji: new RegExp("(^|\\s)" + ":" + "([\\w-]+)$"),
+  block: new RegExp("(^|\\s)" + "/" + "([^\\s]|[\\w-\\+]*)$")
 };

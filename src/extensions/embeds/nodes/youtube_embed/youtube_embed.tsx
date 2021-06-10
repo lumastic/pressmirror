@@ -1,7 +1,7 @@
 import { Node, NodeSpec } from "prosemirror-model";
 import { EditorView, NodeView } from "prosemirror-view";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import { ProviderContext } from "../../../../core/types";
+import { ProviderContextType } from "../../../../core/types";
 import {
   ReactComponentProps,
   ReactNodeView
@@ -38,7 +38,7 @@ const YouTubeEmbed = forwardRef(
           videoId = match;
         }
         setAttrs({
-          embedUrl: `https://www.youtube.com/embed/${videoId}`,
+          embedURL: `https://www.youtube.com/embed/${videoId}`,
           videoId
         });
       }
@@ -91,7 +91,7 @@ export const youtube_embed: NodeSpec = {
 };
 
 export function youtubeNodeView(
-  ctx: ProviderContext,
+  ctx: ProviderContextType,
   options?: Record<string, unknown>
 ) {
   return (

@@ -47,7 +47,7 @@ export const useEditorContext = (
 
     // Add the update handler which will update this hook every time the editor
     // is updated.
-    registerHandler("update", updateHandler);
+    return registerHandler("update", updateHandler);
   }, []);
 
   return context;

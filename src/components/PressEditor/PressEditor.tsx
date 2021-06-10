@@ -5,7 +5,8 @@ import { EditorManager } from "../../core/context/EditorManager";
 import { Callbacks } from "../../core/providers/CallbacksProvider";
 import { ProviderContextType } from "../../core/types";
 import { PortalRenderer } from "../../core/views";
-import { Base, Embeds, Placeholder } from "../../extensions";
+import { Base, Embeds, Placeholder, Suggestions } from "../../extensions";
+import { BlockSelection } from "../BlockSelection";
 import { FloatingMenu } from "../FloatingMenu";
 import { MenuBar } from "../MenuBar";
 import styles from "./PressEditor.scss";
@@ -19,7 +20,7 @@ const PressEditor = ({
   readOnly = false,
   menuBar = false,
   floatingMenu = false,
-  placeholder = "Start typing...",
+  placeholder = "Type / to insert blocks...",
   callbacks
 }: PressEditorProps): React.ReactElement => {
   // Setup variable to hold EditorState for debugging
@@ -59,11 +60,13 @@ const PressEditor = ({
         <Base />
         <Placeholder text={placeholder} className={styles.placeholder} />
         <Embeds />
+        <Suggestions />
       </Editor>
       <PortalRenderer />
       {menuBar && <MenuBar />}
       {floatingMenu && <FloatingMenu />}
       {debug && <Debugger state={debugState} />}
+      <BlockSelection />
     </EditorManager>
   );
 };

@@ -13,7 +13,6 @@ export const EditorManager = ({
     switch (type) {
       case "update":
         const currUpdate = curr["update"];
-        console.log(curr);
         currUpdate.push(handler);
         return { ...curr, update: currUpdate };
       default:
@@ -31,12 +30,9 @@ export const EditorManager = ({
     },
     [handlers]
   );
-  const registerHandler = useCallback(
-    (type, handler) => {
-      handlerDispatch({ type, handler });
-    },
-    [handlerDispatch]
-  );
+  const registerHandler = (type, handler) => {
+    handlerDispatch({ type, handler });
+  };
   const editorValue = useMemo(() => ({ updateHandlers, registerHandler }), [
     updateHandlers,
     registerHandler
